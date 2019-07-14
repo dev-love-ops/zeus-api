@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="ROOT_LEVEL" value="INFO"/>
+    <property name="LoggingHistoryDir" value="/data/logs/oceanapi/history/"/>
+    <property name="LoggingDir" value="/data/logs/oceanapi/"/>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <file>${LoggingDir}info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LoggingHistoryDir}info-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>15</maxHistory>
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level %thread %logger:%line %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%-12(%d{HH:mm:ss.SSS}) %highlight(%-5level) %-15(%thread) %cyan(%-40logger{40}) %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <root level="${ROOT_LEVEL}">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>

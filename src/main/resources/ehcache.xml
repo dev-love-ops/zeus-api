@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" dynamicConfig="false">
+    <diskStore path="java.io.tmpdir"/>
+    <cache name="no-use" eternal="true" maxEntriesLocalHeap="1000" overflowToDisk="true"/>
+    <cache name="lark-token" eternal="false"  timeToLiveSeconds="5000" maxEntriesLocalHeap="1000" overflowToDisk="true"/>
+    <cache name="domain" eternal="false"  timeToLiveSeconds="60" maxEntriesLocalHeap="1000" overflowToDisk="true"/>
+    <cache name="ipaddr" eternal="false"  timeToLiveSeconds="60" maxEntriesLocalHeap="1000" overflowToDisk="true"/>
+</ehcache>
