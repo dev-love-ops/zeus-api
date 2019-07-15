@@ -1,6 +1,5 @@
 package com.devloveops.zeus;
 
-import com.devloveops.zeus.tasks.MyAsyncTask;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +10,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class ZeusApplicationTests {
 
-    @Autowired
-    private MyAsyncTask myAsyncTask;
-
     @Test
     public void contextLoads() {
     }
 
-    @Test
-    public void t(){
-        myAsyncTask.test();
-    }
 
 }
 

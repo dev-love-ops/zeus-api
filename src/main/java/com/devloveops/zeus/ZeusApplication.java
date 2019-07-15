@@ -1,5 +1,6 @@
 package com.devloveops.zeus;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @EnableScheduling
 @EnableAsync
 @SpringBootApplication
+@MapperScan("com.devloveops.zeus.mapper")
 public class ZeusApplication {
 
     public static void main(String[] args) {
