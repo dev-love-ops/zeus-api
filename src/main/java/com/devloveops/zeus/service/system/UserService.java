@@ -24,7 +24,6 @@ public class UserService {
 
         List<ExSystemUser> exSystemUsers = new LinkedList<>();
         List<SystemUser> systemUsers = exSystemUserMapper.selectByExample(systemUserExample);
-
         for (SystemUser systemUser: systemUsers) {
             ExSystemUser exSystemUser = new ExSystemUser();
 

@@ -24,7 +24,7 @@ public class UserController {
 
 
     @GetMapping
-    public CommonVo<List<ExSystemUser>> createUser(){
+    public CommonVo<List<ExSystemUser>> getUserList(){
         return CommonVo.success("OK", userService.getUserList());
     }
 
