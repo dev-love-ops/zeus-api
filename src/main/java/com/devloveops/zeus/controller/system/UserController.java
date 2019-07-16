@@ -14,7 +14,7 @@ import java.util.List;
  * @author rocky
  */
 @RestController
-@RequestMapping("/v1/user")
+@RequestMapping("/api/system/user")
 @CrossOrigin(value = "*")
 public class UserController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
