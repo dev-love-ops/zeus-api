@@ -1,11 +1,13 @@
 package com.devloveops.zeus.service.system;
 
+import com.devloveops.zeus.domain.system.ExSystemUser;
 import com.devloveops.zeus.domain.system.SystemUser;
 import com.devloveops.zeus.domain.system.SystemUserExample;
-import com.devloveops.zeus.mapper.system.SystemUserMapper;
+import com.devloveops.zeus.mapper.system.ExSystemUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -15,11 +17,26 @@ import java.util.List;
 @Service
 public class UserService {
     @Autowired
-    private SystemUserMapper systemUserMapper;
+    private ExSystemUserMapper exSystemUserMapper;
 
-    public List<SystemUser> getUserList(){
+    public List<ExSystemUser> getUserList(){
         SystemUserExample systemUserExample = new SystemUserExample();
-        return systemUserMapper.selectByExample(systemUserExample);
+
+        List<ExSystemUser> exSystemUsers = new LinkedList<>();
+        List<SystemUser> systemUsers = exSystemUserMapper.selectByExample(systemUserExample);
+
+        for (SystemUser systemUser: systemUsers) {
+            ExSystemUser exSystemUser = new ExSystemUser();
+
+            exSystemUser.setUserId(systemUser.getUserId());
+            exSystemUser.setUsername(systemUser.getUsername());
+            exSystemUser.setEmail(systemUser.getEmail());
+            exSystemUser.setMobile(systemUser.getMobile());
+
+            exSystemUsers.add(exSystemUser);
+
+        }
+        return exSystemUsers;
     }
 
 }

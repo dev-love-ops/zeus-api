@@ -1,5 +1,6 @@
 package com.devloveops.zeus.controller.system;
 
+import com.devloveops.zeus.domain.system.ExSystemUser;
 import com.devloveops.zeus.domain.system.SystemUser;
 import com.devloveops.zeus.service.system.UserService;
 import com.devloveops.zeus.support.CommonVo;
@@ -23,7 +24,7 @@ public class UserController {
 
 
     @GetMapping
-    public CommonVo<List<SystemUser>> createUser(){
+    public CommonVo<List<ExSystemUser>> createUser(){
         return CommonVo.success("OK", userService.getUserList());
     }
 
