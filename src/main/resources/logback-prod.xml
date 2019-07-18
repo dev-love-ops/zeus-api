@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="ROOT_LEVEL" value="INFO"/>
+    <property name="ROOT_LEVEL" value="DEBUG"/>
     <property name="LoggingHistoryDir" value="/data/logs/oceanapi/history/"/>
     <property name="LoggingDir" value="/data/logs/oceanapi/"/>
 
