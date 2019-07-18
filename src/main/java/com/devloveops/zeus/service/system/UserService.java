@@ -29,9 +29,7 @@ public class UserService {
         //分页
         PageHelper.startPage(queryCondition.getPageNo(), queryCondition.getPageSize());
         //从数据库中查询的数据
-        logger.info(queryCondition.toString());
         List<SystemUser> systemUsers = exSystemUserMapper.selectByQueryCondition(queryCondition);
-        logger.info(String.valueOf(systemUsers.size()));
         return new PageInfo<>(systemUsers);
     }
 
