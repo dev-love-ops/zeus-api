@@ -32,6 +32,7 @@ public class UserController {
 
     @PostMapping
     public CommonVo createUser(@RequestBody SystemUser systemUser){
+
         try{
             userService.createUser(systemUser);
             return CommonVo.success("OK");

@@ -7,6 +7,8 @@ import com.devloveops.zeus.support.exception.system.UserExistsException;
 import com.devloveops.zeus.support.query.QuerySystemUser;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ import java.util.List;
  */
 @Service
 public class UserService {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private ExSystemUserMapper exSystemUserMapper;
 
@@ -25,7 +29,9 @@ public class UserService {
         //分页
         PageHelper.startPage(queryCondition.getPageNo(), queryCondition.getPageSize());
         //从数据库中查询的数据
+        logger.info(queryCondition.toString());
         List<SystemUser> systemUsers = exSystemUserMapper.selectByQueryCondition(queryCondition);
+        logger.info(String.valueOf(systemUsers.size()));
         return new PageInfo<>(systemUsers);
     }
 
