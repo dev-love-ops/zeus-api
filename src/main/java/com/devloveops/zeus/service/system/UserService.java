@@ -1,13 +1,15 @@
 package com.devloveops.zeus.service.system;
 
-import com.devloveops.zeus.domain.system.ExSystemUser;
 import com.devloveops.zeus.domain.system.SystemUser;
 import com.devloveops.zeus.domain.system.SystemUserExample;
 import com.devloveops.zeus.mapper.system.ExSystemUserMapper;
+import com.devloveops.zeus.support.exception.system.UserExistsException;
+import com.devloveops.zeus.support.query.QuerySystemUser;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -19,23 +21,39 @@ public class UserService {
     @Autowired
     private ExSystemUserMapper exSystemUserMapper;
 
-    public List<ExSystemUser> getUserList(){
+    public PageInfo<SystemUser>  getUserList(QuerySystemUser queryCondition){
+        //分页
+        PageHelper.startPage(queryCondition.getPageNo(), queryCondition.getPageSize());
+        //从数据库中查询的数据
+        List<SystemUser> systemUsers = exSystemUserMapper.selectByQueryCondition(queryCondition);
+        return new PageInfo<>(systemUsers);
+    }
+
+    public void createUser(SystemUser systemUser) throws UserExistsException{
+        //判断是否已经存在
         SystemUserExample systemUserExample = new SystemUserExample();
-
-        List<ExSystemUser> exSystemUsers = new LinkedList<>();
-        List<SystemUser> systemUsers = exSystemUserMapper.selectByExample(systemUserExample);
-        for (SystemUser systemUser: systemUsers) {
-            ExSystemUser exSystemUser = new ExSystemUser();
-
-            exSystemUser.setUserId(systemUser.getUserId());
-            exSystemUser.setUsername(systemUser.getUsername());
-            exSystemUser.setEmail(systemUser.getEmail());
-            exSystemUser.setMobile(systemUser.getMobile());
-
-            exSystemUsers.add(exSystemUser);
-
+        systemUserExample.createCriteria().andUserIdEqualTo(systemUser.getUserId());
+        List<SystemUser> systemUsers =  exSystemUserMapper.selectByExample(systemUserExample);
+        if (systemUsers.size() != 0){
+            throw new UserExistsException("用户已存在");
         }
-        return exSystemUsers;
+        exSystemUserMapper.insertSelective(systemUser);
+    }
+
+    public void modifyUser(SystemUser systemUser){
+
+        SystemUserExample systemUserExample = new SystemUserExample();
+        systemUserExample.createCriteria().andUserIdEqualTo(systemUser.getUserId());
+        //根据systemUserExample修改systemUser不为null的值
+        exSystemUserMapper.updateByExampleSelective(systemUser, systemUserExample);
+    }
+
+    public void deleteUser(SystemUser systemUser){
+
+        SystemUserExample systemUserExample = new SystemUserExample();
+        systemUserExample.createCriteria().andUserIdEqualTo(systemUser.getUserId());
+
+        exSystemUserMapper.deleteByExample(systemUserExample);
     }
 
 }
