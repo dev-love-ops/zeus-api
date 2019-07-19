@@ -24,7 +24,7 @@ def user():
         sql = "INSERT INTO `system_user` (`username`, `user_id`, `email`, `mobile`) VALUES ('{0}', '{1}', '{2}', '{3}')".format(fake_cn.name(), fake.name(), fake.email(), fake_cn.phone_number())
         cursor.execute(sql)
         connection.commit()
-
+,,
 
 if __name__ == "__main__":
     user()

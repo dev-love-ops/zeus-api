@@ -9,6 +9,8 @@ import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -28,6 +30,11 @@ public class UserController {
 
         return CommonVo.success("OK", userService.getUserList(queryCondition));
 
+    }
+
+    @GetMapping("/detail")
+    public CommonVo getUserDetail(@AuthenticationPrincipal UserDetails userDetails){
+        return CommonVo.success("OK", userDetails);
     }
 
     @PostMapping

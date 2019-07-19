@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -18,6 +19,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @EnableAsync
 @SpringBootApplication
 @MapperScan("com.devloveops.zeus.mapper")
+@EnableWebSecurity
 public class ZeusApplication {
 
     public static void main(String[] args) {

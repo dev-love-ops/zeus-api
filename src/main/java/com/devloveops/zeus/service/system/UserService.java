@@ -10,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,10 +38,14 @@ public class UserService {
         //判断是否已经存在
         SystemUserExample systemUserExample = new SystemUserExample();
         systemUserExample.createCriteria().andUserIdEqualTo(systemUser.getUserId());
+
         List<SystemUser> systemUsers =  exSystemUserMapper.selectByExample(systemUserExample);
+
         if (systemUsers.size() != 0){
             throw new UserExistsException("用户已存在");
         }
+        BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
+        systemUser.setPassword(encoder.encode(systemUser.getPassword().trim()));
         exSystemUserMapper.insertSelective(systemUser);
     }
 
