@@ -3,7 +3,7 @@ package com.devloveops.zeus.service.system;
 import com.devloveops.zeus.domain.system.SystemUser;
 import com.devloveops.zeus.domain.system.SystemUserExample;
 import com.devloveops.zeus.mapper.system.ExSystemUserMapper;
-import com.devloveops.zeus.support.exception.system.UserExistsException;
+import com.devloveops.zeus.support.exception.system.ExistsException;
 import com.devloveops.zeus.support.query.QuerySystemUser;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -34,7 +34,7 @@ public class UserService {
         return new PageInfo<>(systemUsers);
     }
 
-    public void createUser(SystemUser systemUser) throws UserExistsException{
+    public void createUser(SystemUser systemUser) throws ExistsException {
         //判断是否已经存在
         SystemUserExample systemUserExample = new SystemUserExample();
         systemUserExample.createCriteria().andUserIdEqualTo(systemUser.getUserId());
@@ -42,7 +42,7 @@ public class UserService {
         List<SystemUser> systemUsers =  exSystemUserMapper.selectByExample(systemUserExample);
 
         if (systemUsers.size() != 0){
-            throw new UserExistsException("用户已存在");
+            throw new ExistsException("用户已存在");
         }
         BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
         systemUser.setPassword(encoder.encode(systemUser.getPassword().trim()));

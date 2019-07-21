@@ -58,7 +58,7 @@
         </javaClientGenerator>
 
         <!-- 指定数据库的表, 可以设置多个, 每个表一个 -->
-        <table tableName="system_user">
+        <table tableName="system_role">
             <!--使用原始列名称生成POJO还是转化成驼峰命名方式-->
             <property name="useActualColumnNames" value="false"></property>
             <!--如果要自定义表中某列映射的名称, 可以使用columnOverride-->

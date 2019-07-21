@@ -1,9 +1,12 @@
 package com.devloveops.zeus.controller.system;
 
+import com.devloveops.zeus.domain.system.SystemRole;
 import com.devloveops.zeus.domain.system.SystemUser;
+import com.devloveops.zeus.service.system.RoleService;
 import com.devloveops.zeus.service.system.UserService;
 import com.devloveops.zeus.support.CommonVo;
 import com.devloveops.zeus.support.exception.system.ExistsException;
+import com.devloveops.zeus.support.query.QuerySystemRole;
 import com.devloveops.zeus.support.query.QuerySystemUser;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
@@ -17,31 +20,26 @@ import org.springframework.web.bind.annotation.*;
  * @author rocky
  */
 @RestController
-@RequestMapping("/api/system/user")
+@RequestMapping("/api/system/role")
 @CrossOrigin(value = "*")
-public class UserController {
+public class RoleController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private UserService userService;
+    private RoleService roleService;
 
 
     @GetMapping
-    public CommonVo<PageInfo<SystemUser>> getUserList(QuerySystemUser queryCondition){
+    public CommonVo<PageInfo<SystemRole>> getRoleList(QuerySystemRole queryCondition){
 
-        return CommonVo.success("OK", userService.getUserList(queryCondition));
+        return CommonVo.success("OK", roleService.getRoleList(queryCondition));
 
-    }
-
-    @GetMapping("/detail")
-    public CommonVo getUserDetail(@AuthenticationPrincipal UserDetails userDetails){
-        return CommonVo.success("OK", userDetails);
     }
 
     @PostMapping
-    public CommonVo createUser(@RequestBody SystemUser systemUser){
+    public CommonVo createRole(@RequestBody SystemRole systemRole){
 
         try{
-            userService.createUser(systemUser);
+            roleService.createRole(systemRole);
             return CommonVo.success("OK");
         } catch (ExistsException e){
             return CommonVo.fail(e.getMessage());
@@ -50,14 +48,14 @@ public class UserController {
     }
 
     @PutMapping
-    public CommonVo modifyUser(@RequestBody SystemUser systemUser){
-        userService.modifyUser(systemUser);
+    public CommonVo modifyRole(@RequestBody SystemRole systemRole){
+        roleService.modifyRole(systemRole);
         return CommonVo.success("OK");
     }
 
     @DeleteMapping
-    public CommonVo deleteUser(@RequestBody SystemUser systemUser){
-        userService.deleteUser(systemUser);
+    public CommonVo deleteRole(@RequestBody SystemRole systemRole){
+        roleService.deleteRole(systemRole);
         return CommonVo.success("OK");
     }
 
