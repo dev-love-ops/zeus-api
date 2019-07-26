@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ExSystemUserMapper extends SystemUserMapper {
 
-    List<SystemUser> selectByQueryCondition(QuerySystemUser queryCondition);
+
 }

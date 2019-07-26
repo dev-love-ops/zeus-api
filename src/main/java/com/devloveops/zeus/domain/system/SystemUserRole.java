@@ -1,7 +1,6 @@
 package com.devloveops.zeus.domain.system;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Data;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
  * This class corresponds to the database table system_user
  */
 @Data
-public class SystemUser {
+public class SystemUserRole {
     /**
      * 
      */
@@ -40,11 +39,10 @@ public class SystemUser {
     /**
      * 密码
      */
-    @JsonIgnore
     private String password;
 
     /**
      * 用户所拥有的角色列表
      */
-    private List<SystemRole> roles;
+    private List<String> roles;
 }

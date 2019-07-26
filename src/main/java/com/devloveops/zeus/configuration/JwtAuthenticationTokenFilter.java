@@ -37,6 +37,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String token = getTokenFromHeader(request);
+
         if (token != null && jwtTokenUtil.validateToken(token)){
 
             //把认证通过的用户信息设置到spring上下文中, 经过测试, 只要是个userDetails对象就行, 不用密码就算通过了, 如果需要权限信息的话可以查询一下数据库然后把真实的权限信息加上去.
@@ -45,10 +46,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             CustomUserDetails customUserDetails = new CustomUserDetails(username, "");
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(customUserDetails, null, null);
-//                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
         }
 
         chain.doFilter(request, response);

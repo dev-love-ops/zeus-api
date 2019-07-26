@@ -34,7 +34,8 @@ public class UserController {
 
     @GetMapping("/detail")
     public CommonVo getUserDetail(@AuthenticationPrincipal UserDetails userDetails){
-        return CommonVo.success("OK", userDetails);
+
+        return CommonVo.success("OK", userService.getUserDetailByUserId("wufeiqun"));
     }
 
     @PostMapping

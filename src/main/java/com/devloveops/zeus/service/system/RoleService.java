@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,31 +39,27 @@ public class RoleService {
 
     public void createRole(SystemRole systemRole) throws ExistsException {
         //判断是否已经存在
-        SystemRoleExample systemRoleExample = new SystemRoleExample();
-        systemRoleExample.createCriteria().andNameEqualTo(systemRole.getName());
 
-        List<SystemRole> systemRoles =  systemRoleMapper.selectByExample(systemRoleExample);
+        SystemRole systemRoleExist =  systemRoleMapper.selectByRoleId(systemRole);
 
-        if (systemRoles.size() != 0){
+        if (systemRoleExist != null){
             throw new ExistsException("角色已存在");
         }
+        Date now = new Date();
+        systemRole.setCreateTime(now);
         systemRoleMapper.insertSelective(systemRole);
     }
 
     public void modifyRole(SystemRole systemRole){
 
         SystemRoleExample systemRoleExample = new SystemRoleExample();
-        systemRoleExample.createCriteria().andNameEqualTo(systemRole.getName());
+        systemRoleExample.createCriteria().andNameEqualTo(systemRole.getRoleName());
         //根据systemRoleExample修改systemRole不为null的值
         systemRoleMapper.updateByExampleSelective(systemRole, systemRoleExample);
     }
 
     public void deleteRole(SystemRole systemRole){
-
-        SystemRoleExample systemRoleExample = new SystemRoleExample();
-        systemRoleExample.createCriteria().andNameEqualTo(systemRole.getName());
-
-        systemRoleMapper.deleteByExample(systemRoleExample);
+        systemRoleMapper.deleteByRoleId(systemRole);
     }
 
 }

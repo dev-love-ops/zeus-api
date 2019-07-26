@@ -8,5 +8,6 @@ import lombok.Data;
  */
 @Data
 public class QuerySystemRole extends BasicCondition{
-    private String name;
+    private String roleId;
+    private String roleName;
 }

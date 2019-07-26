@@ -16,9 +16,14 @@ public class SystemRole {
     private Integer id;
 
     /**
+     * 角色ID
+     */
+    private String roleId;
+
+    /**
      * 角色名称
      */
-    private String name;
+    private String roleName;
 
     /**
      * 创建时间
@@ -28,5 +33,5 @@ public class SystemRole {
     /**
      * 角色描述
      */
-    private String desc;
+    private String description;
 }

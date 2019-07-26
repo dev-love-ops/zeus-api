@@ -4,6 +4,7 @@ import com.devloveops.zeus.domain.system.SystemUser;
 import com.devloveops.zeus.domain.system.SystemUserExample;
 import java.util.List;
 
+import com.devloveops.zeus.support.query.QuerySystemUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -95,4 +96,8 @@ public interface SystemUserMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(SystemUser record);
+
+    List<SystemUser> selectByQueryCondition(QuerySystemUser queryCondition);
+
+    SystemUser getUserDetailByUserId(@Param("user_id") String userId);
 }

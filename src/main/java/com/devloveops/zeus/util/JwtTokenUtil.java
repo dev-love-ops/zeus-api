@@ -24,9 +24,6 @@ public class JwtTokenUtil {
     @Value("${jwt.secret}")
     private String secret;
 
-    @Value("${jwt.expiration}")
-    private Long expiration;
-
 
     private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
@@ -75,12 +72,11 @@ public class JwtTokenUtil {
         } catch (Exception e) {
             expiration = null;
         }
+        System.out.println(expiration);
         return expiration;
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        System.out.println(token);
-        System.out.println(userDetails);
         return true;
 //        JwtUser user = (JwtUser) userDetails;
 //        final String username = getUsernameFromToken(token);
@@ -93,9 +89,7 @@ public class JwtTokenUtil {
 
             Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8))).parseClaimsJws(token);
             return true;
-
         } catch (JwtException e) {
-
             return false;
         }
     }
@@ -106,11 +100,12 @@ public class JwtTokenUtil {
     }
 
     /**
-     * token 过期时间
+     * token 过期时间, 默认30天
      * @return
      */
     private Date generateExpirationDate() {
-        return new Date(System.currentTimeMillis() + this.expiration * 1000);
+        long expiration = 30 * 24 * 60 * 60 * 1000L;
+        return new Date(System.currentTimeMillis() + expiration);
     }
 
 }

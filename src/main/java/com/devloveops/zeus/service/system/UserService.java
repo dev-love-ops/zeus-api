@@ -3,6 +3,7 @@ package com.devloveops.zeus.service.system;
 import com.devloveops.zeus.domain.system.SystemUser;
 import com.devloveops.zeus.domain.system.SystemUserExample;
 import com.devloveops.zeus.mapper.system.ExSystemUserMapper;
+import com.devloveops.zeus.mapper.system.SystemUserMapper;
 import com.devloveops.zeus.support.exception.system.ExistsException;
 import com.devloveops.zeus.support.query.QuerySystemUser;
 import com.github.pagehelper.PageHelper;
@@ -24,13 +25,13 @@ public class UserService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private ExSystemUserMapper exSystemUserMapper;
+    private SystemUserMapper systemUserMapper;
 
     public PageInfo<SystemUser>  getUserList(QuerySystemUser queryCondition){
         //分页
         PageHelper.startPage(queryCondition.getPageNo(), queryCondition.getPageSize());
         //从数据库中查询的数据
-        List<SystemUser> systemUsers = exSystemUserMapper.selectByQueryCondition(queryCondition);
+        List<SystemUser> systemUsers = systemUserMapper.selectByQueryCondition(queryCondition);
         return new PageInfo<>(systemUsers);
     }
 
@@ -39,14 +40,14 @@ public class UserService {
         SystemUserExample systemUserExample = new SystemUserExample();
         systemUserExample.createCriteria().andUserIdEqualTo(systemUser.getUserId());
 
-        List<SystemUser> systemUsers =  exSystemUserMapper.selectByExample(systemUserExample);
+        List<SystemUser> systemUsers =  systemUserMapper.selectByExample(systemUserExample);
 
         if (systemUsers.size() != 0){
             throw new ExistsException("用户已存在");
         }
         BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
         systemUser.setPassword(encoder.encode(systemUser.getPassword().trim()));
-        exSystemUserMapper.insertSelective(systemUser);
+        systemUserMapper.insertSelective(systemUser);
     }
 
     public void modifyUser(SystemUser systemUser){
@@ -54,7 +55,7 @@ public class UserService {
         SystemUserExample systemUserExample = new SystemUserExample();
         systemUserExample.createCriteria().andUserIdEqualTo(systemUser.getUserId());
         //根据systemUserExample修改systemUser不为null的值
-        exSystemUserMapper.updateByExampleSelective(systemUser, systemUserExample);
+        systemUserMapper.updateByExampleSelective(systemUser, systemUserExample);
     }
 
     public void deleteUser(SystemUser systemUser){
@@ -62,7 +63,11 @@ public class UserService {
         SystemUserExample systemUserExample = new SystemUserExample();
         systemUserExample.createCriteria().andUserIdEqualTo(systemUser.getUserId());
 
-        exSystemUserMapper.deleteByExample(systemUserExample);
+        systemUserMapper.deleteByExample(systemUserExample);
+    }
+
+    public SystemUser getUserDetailByUserId(String userId){
+        return systemUserMapper.getUserDetailByUserId(userId);
     }
 
 }
