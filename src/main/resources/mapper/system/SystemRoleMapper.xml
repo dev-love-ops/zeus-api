@@ -259,7 +259,7 @@
     <if test="roleName != null and roleName != ''">AND role_name = #{roleName}</if>
     <if test="roleId != null and roleId != ''">AND role_id = #{roleId}</if>
   </select>
-  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="string">
-    select <include refid="Base_Column_List"/> from system_role where role_id in (select role_id from system_user_role where user_id=#{user_id})
+  <select id="selectByUserId" resultType="string" parameterType="string">
+    select role_id from system_user_role where user_id=#{user_id}
   </select>
 </mapper>

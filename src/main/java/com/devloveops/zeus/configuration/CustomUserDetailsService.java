@@ -3,6 +3,7 @@ package com.devloveops.zeus.configuration;
 import com.devloveops.zeus.domain.system.SystemUser;
 import com.devloveops.zeus.domain.system.SystemUserExample;
 import com.devloveops.zeus.mapper.system.SystemUserMapper;
+import com.devloveops.zeus.support.query.QuerySystemUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Role;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,14 +28,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SystemUserExample systemUserExample = new SystemUserExample();
-        systemUserExample.createCriteria().andUserIdEqualTo(username);
+        QuerySystemUser querySystemUser = new QuerySystemUser();
+        querySystemUser.setUserId(username);
 
-        List<SystemUser> systemUsers = systemUserMapper.selectByExample(systemUserExample);
+        List<SystemUser> systemUsers = systemUserMapper.selectByQueryCondition(querySystemUser);
         if (systemUsers.size() == 0) {
-            throw new UsernameNotFoundException("用户");
+            throw new UsernameNotFoundException("用户不存在");
         } else {
             SystemUser systemUser = systemUsers.get(0);
+//            System.out.println(systemUser.getRoles().get(0));
             CustomUserDetails customUserDetails = new CustomUserDetails(systemUser.getUsername(), systemUser.getPassword());
             return customUserDetails;
         }

@@ -282,7 +282,7 @@
     select <include refid="Base_Column_List" /> from system_user where 1=1
     <if test="username != null and username != ''">AND username = #{username}</if>
     <if test="userId != null and userId != ''">AND user_id = #{userId}</if>
-    <if test="mobile != null and mobile != ''">AND mobile = #{mobile}</if>
+    <if test="roleId != null and roleId != ''">AND user_id in (select user_id from system_user_role where role_id=#{roleId})</if>
   </select>
   <select id="getUserDetailByUserId" parameterType="java.lang.String" resultMap="UserRoleResultMap">
     select <include refid="Base_Column_List"/> from system_user where user_id=#{user_id}

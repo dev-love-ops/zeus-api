@@ -121,5 +121,5 @@ public interface SystemRoleMapper {
     int updateByPrimaryKey(SystemRole record);
 
     List<SystemRole> selectByQueryCondition(QuerySystemRole querySystemRole);
-    List<SystemRole> selectByUserId(@Param("user_id") String userId);
+    List<String> selectByUserId(@Param("user_id") String userId);
 }

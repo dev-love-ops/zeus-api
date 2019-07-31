@@ -10,6 +10,8 @@ import java.util.Collection;
 /**
  * @author RockyWu
  * @date 2019-07-19 14:47
+ * hasAuthority('ROLE_ADMIN') means the the same as hasRole('ADMIN')
+ * https://stackoverflow.com/questions/19525380/difference-between-role-and-grantedauthority-in-spring-security
  */
 public class CustomUserDetails implements UserDetails {
     private String username;

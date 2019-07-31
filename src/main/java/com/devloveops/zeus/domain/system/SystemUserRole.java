@@ -17,32 +17,13 @@ public class SystemUserRole {
     private Integer id;
 
     /**
-     * 用户名
-     */
-    private String username;
-
-    /**
      * 用户ID
      */
     private String userId;
 
     /**
-     * 手机号
+     * 角色ID
      */
-    private String mobile;
+    private String roleId;
 
-    /**
-     * 邮箱
-     */
-    private String email;
-
-    /**
-     * 密码
-     */
-    private String password;
-
-    /**
-     * 用户所拥有的角色列表
-     */
-    private List<String> roles;
 }

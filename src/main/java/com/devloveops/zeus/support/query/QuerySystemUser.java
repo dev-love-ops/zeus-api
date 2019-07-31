@@ -10,5 +10,5 @@ import lombok.Data;
 public class QuerySystemUser extends BasicCondition{
     private String username;
     private String userId;
-    private String mobile;
+    private String roleId;
 }
