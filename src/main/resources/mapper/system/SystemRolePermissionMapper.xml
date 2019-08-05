@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devloveops.zeus.mapper.system.SystemRolePermissionMapper">
+  <insert id="insert" parameterType="com.devloveops.zeus.domain.system.SystemUserRole">
+    insert into system_user_role (user_id, role_id) values (#{userId,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR})
+  </insert>
+  <delete id="deleteByUserId" parameterType="string">
+    delete from system_user_role  where user_id=#{userId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByUserRole" parameterType="com.devloveops.zeus.domain.system.SystemUserRole">
+    delete from system_user_role  where user_id=#{userId,jdbcType=VARCHAR} and role_id=#{roleId,jdbcType=VARCHAR}
+  </delete>
+  <select id="selectByRoleId" parameterType="String" resultType="string">
+    select permission_id from system_role_permission  where role_id=#{roleId,jdbcType=VARCHAR}
+  </select>
+</mapper>
