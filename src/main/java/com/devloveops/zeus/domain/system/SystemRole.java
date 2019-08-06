@@ -1,6 +1,8 @@
 package com.devloveops.zeus.domain.system;
 
 import java.util.Date;
+import java.util.List;
+
 import lombok.*;
 
 /**
@@ -34,4 +36,6 @@ public class SystemRole {
      * 角色描述
      */
     private String description;
+
+    private List<Integer> permissions;
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -47,6 +48,12 @@ public class SystemUser {
      * 用户所拥有的角色列表
      */
     private List<String> roles;
+
+    /**
+     * 用户所拥有的角色列表
+     */
+    private Set<String> permissions;
+
 
     public Integer getId() {
         return id;
@@ -102,6 +109,14 @@ public class SystemUser {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public Set<String> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<String> permissions) {
+        this.permissions = permissions;
     }
 
     @Override

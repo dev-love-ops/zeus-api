@@ -71,4 +71,22 @@ public class SystemPermission {
      */
     private List<SystemPermission> children;
 
+
+    /**
+     * 默认展开, 前端需要, 数据库中没有该字段
+     */
+    private Boolean expand = true;
+
+
+    /**
+     * 默认不勾选, 前端需要, 数据库中没有该字段, 这些字段是需要的, 如果没有的话, 前端渲染的时候经常会出现没办法点击的情况
+     */
+    private Boolean checked = false;
+
+
+    /**
+     * 默认不选中, 前端需要, 数据库中没有该字段
+     */
+    private Boolean selected = false;
+
 }

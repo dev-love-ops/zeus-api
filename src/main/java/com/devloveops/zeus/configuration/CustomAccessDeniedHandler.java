@@ -1,5 +1,7 @@
 package com.devloveops.zeus.configuration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,13 +19,14 @@ import java.io.IOException;
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exc) throws IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null){
-            System.out.println(authentication.getName());
-            System.out.println(request.getRequestURI());
+            System.out.println(authentication.getAuthorities());
+            logger.warn("用户: [{}]鉴权失败, 请求路径: [{}]", authentication.getName(), request.getRequestURI());
         }
 
         response.sendError(HttpServletResponse.SC_FORBIDDEN, "无权限");

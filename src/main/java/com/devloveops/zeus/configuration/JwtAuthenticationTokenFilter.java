@@ -6,6 +6,8 @@ package com.devloveops.zeus.configuration;
  * @date 2019-01-20 09:44
  */
 
+import com.devloveops.zeus.domain.system.SystemUser;
+import com.devloveops.zeus.service.system.UserService;
 import com.devloveops.zeus.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +33,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private CustomUserDetailsService jwtUserDetailsService;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private UserService userService;
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
@@ -43,9 +47,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             //把认证通过的用户信息设置到spring上下文中, 经过测试, 只要是个userDetails对象就行, 不用密码就算通过了, 如果需要权限信息的话可以查询一下数据库然后把真实的权限信息加上去.
             //把认证通过的用户和该用户的权限设置到spring上下文中
             String username = jwtTokenUtil.getUsernameFromToken(token);
-            CustomUserDetails customUserDetails = new CustomUserDetails(username, "");
-
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(customUserDetails, null, null);
+            SystemUser systemUser = userService.getUserDetailByUserId(username);
+            CustomUserDetails customUserDetails = new CustomUserDetails(systemUser);
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(customUserDetails.getUsername(), customUserDetails.getPassword(), customUserDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

@@ -1,11 +1,15 @@
 package com.devloveops.zeus.configuration;
 
+import com.devloveops.zeus.domain.system.SystemUser;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author RockyWu
@@ -16,22 +20,34 @@ import java.util.Collection;
 public class CustomUserDetails implements UserDetails {
     private String username;
     private String password;
-    private Collection<? extends GrantedAuthority> authorities;
+    private List<String> roles;
+    private Set<String> permissions;
 
-//    CustomUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-    CustomUserDetails(String username, String password) {
-        this.username = username;
-        this.password = password;
+    CustomUserDetails(SystemUser systemUser) {
+        this.username = systemUser.getUserId();
+        this.password = systemUser.getPassword();
+        this.roles = systemUser.getRoles();
+        this.permissions = systemUser.getPermissions();
 
-//        this.authorities = authorities;
+
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        ArrayList<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        return authorities;
+        List<GrantedAuthority> authorityList = new ArrayList<>();
+
+        if (roles != null) {
+            for (String role: roles) {
+                authorityList.add(new SimpleGrantedAuthority(role));
+            }
+        }
+
+        if (permissions != null) {
+            for (String perm: permissions) {
+                authorityList.add(new SimpleGrantedAuthority(perm));
+            }
+        }
+        return authorityList;
     }
 
     @Override

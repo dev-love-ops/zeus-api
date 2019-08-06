@@ -9,6 +9,7 @@ import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class UserController {
     @GetMapping("/detail")
     public CommonVo getUserDetail(@AuthenticationPrincipal UserDetails userDetails){
 
-        return CommonVo.success("OK", userService.getUserDetailByUserId("wufeiqun"));
+        return CommonVo.success("OK", userService.getUserDetailByUserId("dev-love-ops"));
     }
 
     @PostMapping
@@ -57,6 +58,7 @@ public class UserController {
     }
 
     @DeleteMapping
+    @PreAuthorize("hasAuthority('system:user:delete')")
     public CommonVo deleteUser(@RequestBody SystemUser systemUser){
         userService.deleteUser(systemUser);
         return CommonVo.success("OK");

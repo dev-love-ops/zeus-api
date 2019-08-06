@@ -4,9 +4,7 @@ import com.devloveops.zeus.domain.system.SystemRole;
 import com.devloveops.zeus.domain.system.SystemUser;
 import com.devloveops.zeus.domain.system.SystemUserExample;
 import com.devloveops.zeus.domain.system.SystemUserRole;
-import com.devloveops.zeus.mapper.system.ExSystemUserMapper;
-import com.devloveops.zeus.mapper.system.SystemUserMapper;
-import com.devloveops.zeus.mapper.system.SystemUserRoleMapper;
+import com.devloveops.zeus.mapper.system.*;
 import com.devloveops.zeus.support.exception.system.ExistsException;
 import com.devloveops.zeus.support.query.QuerySystemUser;
 import com.github.pagehelper.PageHelper;
@@ -17,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author RockyWu
@@ -29,6 +30,8 @@ public class UserService {
 
     @Autowired
     private SystemUserMapper systemUserMapper;
+    @Autowired
+    private SystemRolePermissionMapper systemRolePermissionMapper;
     @Autowired
     private SystemUserRoleMapper systemUserRoleMapper;
 
@@ -112,7 +115,16 @@ public class UserService {
     }
 
     public SystemUser getUserDetailByUserId(String userId){
-        return systemUserMapper.getUserDetailByUserId(userId);
+        Set<String> permissions = new HashSet<>();
+        SystemUser systemUser = systemUserMapper.getUserDetailByUserId(userId);
+
+        for (String roleId: systemUser.getRoles()) {
+            permissions.addAll(systemRolePermissionMapper.selectPermissionIdByRoleId(roleId));
+        }
+
+        systemUser.setPermissions(permissions);
+
+        return systemUser;
     }
 
 }

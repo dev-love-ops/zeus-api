@@ -53,6 +53,12 @@ public class RoleController {
         return CommonVo.success("OK");
     }
 
+    @PutMapping("/permission")
+    public CommonVo modifyRolePerm(@RequestBody SystemRole systemRole){
+        roleService.modifyRolePerm(systemRole);
+        return CommonVo.success("OK");
+    }
+
     @DeleteMapping
     public CommonVo deleteRole(@RequestBody SystemRole systemRole){
         roleService.deleteRole(systemRole);

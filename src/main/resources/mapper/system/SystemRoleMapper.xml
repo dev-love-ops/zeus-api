@@ -6,9 +6,10 @@
     <result column="role_id" jdbcType="VARCHAR" property="roleId" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.devloveops.zeus.domain.system.SystemRole">
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+  <resultMap id="BaseResultMapWithPermission" type="com.devloveops.zeus.domain.system.SystemRole" extends="BaseResultMap">
+    <collection property="permissions" column="id" select="com.devloveops.zeus.mapper.system.SystemRolePermissionMapper.selectByRoleId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,14 +76,14 @@
   <sql id="Base_Column_List">
     id, role_id, role_name, description, create_time, description
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.devloveops.zeus.domain.system.SystemRoleExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBs" parameterType="com.devloveops.zeus.domain.system.SystemRoleExample" resultMap="BaseResultMap">
   </select>
   <select id="selectByRoleId" parameterType="com.devloveops.zeus.domain.system.SystemRole" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from system_role where role_id=#{roleId}
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
 
@@ -219,14 +220,11 @@
     -->
     update system_role
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="roleName != null">
+        role_name = #{roleName, jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="desc != null">
-        desc = #{desc,jdbcType=LONGVARCHAR},
+      <if test="description != null">
+        description = #{description, jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -253,7 +251,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <!--custom method-->
-  <select id="selectByQueryCondition" parameterType="com.devloveops.zeus.support.query.QuerySystemRole" resultMap="ResultMapWithBLOBs">
+  <select id="selectByQueryCondition" parameterType="com.devloveops.zeus.support.query.QuerySystemRole" resultMap="BaseResultMapWithPermission">
 
     select <include refid="Base_Column_List" /> from system_role where 1=1
     <if test="roleName != null and roleName != ''">AND role_name = #{roleName}</if>

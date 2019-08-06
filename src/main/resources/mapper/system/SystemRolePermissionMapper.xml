@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.devloveops.zeus.mapper.system.SystemRolePermissionMapper">
-  <insert id="insert" parameterType="com.devloveops.zeus.domain.system.SystemUserRole">
-    insert into system_user_role (user_id, role_id) values (#{userId,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="Integer">
+    insert into system_role_permission (role_id, permission_id) values (#{roleId,jdbcType=INTEGER}, #{permissionId,jdbcType=INTEGER})
   </insert>
-  <delete id="deleteByUserId" parameterType="string">
-    delete from system_user_role  where user_id=#{userId,jdbcType=VARCHAR}
+  <delete id="deleteByRoleId" parameterType="Integer">
+    delete from system_role_permission  where role_id=#{roleId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByUserRole" parameterType="com.devloveops.zeus.domain.system.SystemUserRole">
-    delete from system_user_role  where user_id=#{userId,jdbcType=VARCHAR} and role_id=#{roleId,jdbcType=VARCHAR}
+  <delete id="deleteByRolePerm">
+    delete from system_role_permission  where permission_id=#{permissionId,jdbcType=INTEGER} and role_id=#{roleId,jdbcType=INTEGER}
   </delete>
-  <select id="selectByRoleId" parameterType="String" resultType="string">
-    select permission_id from system_role_permission  where role_id=#{roleId,jdbcType=VARCHAR}
+  <select id="selectByRoleId" parameterType="Integer" resultType="Integer">
+    select permission_id from system_role_permission  where role_id=#{roleId,jdbcType=INTEGER}
+  </select>
+  <select id="selectPermissionIdByRoleId" parameterType="String" resultType="String">
+    select a.name from system_permission as a, system_role as b, system_role_permission as c where a.id=c.permission_id and b.id=c.role_id and b.role_id=#{roleId,jdbcType=VARCHAR}
   </select>
 </mapper>
