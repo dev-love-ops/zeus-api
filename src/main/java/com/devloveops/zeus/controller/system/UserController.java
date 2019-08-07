@@ -14,6 +14,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author rocky
  */
@@ -33,10 +35,10 @@ public class UserController {
 
     }
 
-    @GetMapping("/detail")
-    public CommonVo getUserDetail(@AuthenticationPrincipal UserDetails userDetails){
+    @GetMapping("/menuList")
+    public CommonVo getUserDetail(HttpServletRequest request){
 
-        return CommonVo.success("OK", userService.getUserDetailByUserId("dev-love-ops"));
+        return CommonVo.success("OK", userService.getMenuListByUserId(request.getUserPrincipal().getName()));
     }
 
     @PostMapping

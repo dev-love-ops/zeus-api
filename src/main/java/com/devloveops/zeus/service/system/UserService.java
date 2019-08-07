@@ -1,9 +1,6 @@
 package com.devloveops.zeus.service.system;
 
-import com.devloveops.zeus.domain.system.SystemRole;
-import com.devloveops.zeus.domain.system.SystemUser;
-import com.devloveops.zeus.domain.system.SystemUserExample;
-import com.devloveops.zeus.domain.system.SystemUserRole;
+import com.devloveops.zeus.domain.system.*;
 import com.devloveops.zeus.mapper.system.*;
 import com.devloveops.zeus.support.exception.system.ExistsException;
 import com.devloveops.zeus.support.query.QuerySystemUser;
@@ -34,6 +31,7 @@ public class UserService {
     private SystemRolePermissionMapper systemRolePermissionMapper;
     @Autowired
     private SystemUserRoleMapper systemUserRoleMapper;
+
 
     public PageInfo<SystemUser>  getUserList(QuerySystemUser queryCondition){
         //分页
@@ -125,6 +123,19 @@ public class UserService {
         systemUser.setPermissions(permissions);
 
         return systemUser;
+    }
+
+    public List<SystemPermission> getMenuListByUserId(String userId){
+
+        List<SystemPermission> userOwnedPerms = new LinkedList<>();
+
+        List<String> roles = systemUserRoleMapper.selectByUserId(userId);
+        for (String role: roles) {
+            List<SystemPermission> perms = systemRolePermissionMapper.selectPermissionByRoleId(role);
+            userOwnedPerms.addAll(perms);
+        }
+
+        return userOwnedPerms;
     }
 
 }

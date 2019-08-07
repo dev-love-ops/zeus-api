@@ -50,9 +50,11 @@ public class SystemUser {
     private List<String> roles;
 
     /**
-     * 用户所拥有的角色列表
+     * 用户所拥有的权限列表, 字符串
      */
     private Set<String> permissions;
+
+
 
 
     public Integer getId() {

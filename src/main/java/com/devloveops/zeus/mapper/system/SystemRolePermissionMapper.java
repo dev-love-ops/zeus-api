@@ -1,5 +1,6 @@
 package com.devloveops.zeus.mapper.system;
 
+import com.devloveops.zeus.domain.system.SystemPermission;
 import com.devloveops.zeus.domain.system.SystemUserRole;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,4 +21,5 @@ public interface SystemRolePermissionMapper {
      * @return
      */
     List<String> selectPermissionIdByRoleId(@Param("roleId") String roleId);
+    List<SystemPermission> selectPermissionByRoleId(@Param("roleId") String roleId);
 }
